@@ -167,10 +167,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="botchat.css" />
+    <Content Include="botchat.js" />
     <Content Include="default.htm" />
     <Content Include="Dubai-Police-Logo.png" />
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="HtmlPage2.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

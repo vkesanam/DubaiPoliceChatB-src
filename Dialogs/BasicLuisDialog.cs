@@ -152,6 +152,12 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             string message = "Your Complaint Status: In progress";
             await context.PostAsync(message);
+
+            PromptDialog.Text(
+        context: context,
+        resume: AnythingElseHandler,
+        prompt: "Is there anything else that I could help?",
+        retry: "Sorry, I don't understand that.");
         }
 
             public async Task CustomerName(IDialogContext context, IAwaitable<string> result)
