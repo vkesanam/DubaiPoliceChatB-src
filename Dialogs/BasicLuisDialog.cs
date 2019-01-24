@@ -33,6 +33,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             //await this.ShowLuisResult(context, result);
             string Welcomemessage = "Glad to talk to you. Welcome to iBot - your Virtual Dubai Police.";
             await context.PostAsync(Welcomemessage);
+            //ybrdHHRAcXs.cwA.ChM.0MOK0Wb5NEN5rApEqQn4UKhdS30odPpEkt4Lc-9WsRM
         }
 
         [LuisIntent("Cancel")]
