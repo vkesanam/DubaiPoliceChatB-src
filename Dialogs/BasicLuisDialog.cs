@@ -1,10 +1,12 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -12,6 +14,11 @@ namespace Microsoft.Bot.Sample.LuisBot
     [Serializable]
     public class BasicLuisDialog : LuisDialog<object>
     {
+        public string customerName;
+        public string email;
+        public string phone;
+        public string complaint;
+
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
@@ -22,7 +29,9 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
-            await this.ShowLuisResult(context, result);
+            //await this.ShowLuisResult(context, result);
+            string message = "I'm sorry, i am not in a condition to answer your question currently.";
+            await context.PostAsync(message);
         }
 
         // Go to https://luis.ai and create a new intent, then train/publish your luis app.
@@ -33,6 +42,25 @@ namespace Microsoft.Bot.Sample.LuisBot
             //await this.ShowLuisResult(context, result);
             string Welcomemessage = "Glad to talk to you. Welcome to iBot - your Virtual Dubai Police.";
             await context.PostAsync(Welcomemessage);
+
+            var feedback = ((Activity)context.Activity).CreateReply("Let's start by choosing your preferred language?");
+
+            feedback.SuggestedActions = new SuggestedActions()
+            {
+                Actions = new List<CardAction>()
+                {
+                    //new CardAction(){ Title = "👍", Type=ActionTypes.PostBack, Value=$"yes-positive-feedback" },
+                    //new CardAction(){ Title = "👎", Type=ActionTypes.PostBack, Value=$"no-negative-feedback" }
+
+                     new CardAction(){ Title = "English", Type=ActionTypes.PostBack, Value=$"English" },
+                    new CardAction(){ Title = "Arabic", Type=ActionTypes.PostBack, Value=$"Arabic" }
+                }
+            };
+
+            await context.PostAsync(feedback);
+
+            context.Wait(MessageReceived);
+
             //ybrdHHRAcXs.cwA.ChM.0MOK0Wb5NEN5rApEqQn4UKhdS30odPpEkt4Lc-9WsRM
         }
 
