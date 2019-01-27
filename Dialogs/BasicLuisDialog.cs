@@ -227,12 +227,12 @@ namespace Microsoft.Bot.Sample.LuisBot
                 string message = $"Thanks for using I Bot. Hope you have a great day!";
                 await context.PostAsync(message);
 
-                //var survey = context.MakeMessage();
+                var survey = context.MakeMessage();
 
-                //var attachment = GetSurveyCard();
-                //survey.Attachments.Add(attachment);
+                var attachment = GetSurveyCard();
+                survey.Attachments.Add(attachment);
 
-                //await context.PostAsync(survey);
+                await context.PostAsync(survey);
 
                 context.Done<string>("conversation ended.");
             }
@@ -243,6 +243,19 @@ namespace Microsoft.Bot.Sample.LuisBot
             string message = $"Great! What else that can I help you?";
             await context.PostAsync(message);
             context.Wait(MessageReceivedAsync);
+        }
+        private static Microsoft.Bot.Connector.Attachment GetSurveyCard()
+        {
+            var heroCard = new HeroCard
+            {
+                Title = "",
+                Subtitle = "",
+                Text = "Kindly complete the Survey.",
+                //Images = new List<CardImage> { new CardImage("http://idhabot.azurewebsites.net/DMankhool.png") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Click to complete the Survey", value: "https://crmemeavoc1runtime.crm4.dynamics.com/471525fd-21d8-4134-a550-9d15c33c3bec/dubai-police-survey") }
+            };
+
+            return heroCard.ToAttachment();
         }
         [LuisIntent("Cancel")]
         public async Task CancelIntent(IDialogContext context, LuisResult result)
